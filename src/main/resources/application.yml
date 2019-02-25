@@ -1,0 +1,32 @@
+server:
+    port: 9000
+    session-timeout: 1800
+spring:
+    thymeleaf:
+        mode: LEGACYHTML5
+        cache: false
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    # 多环境配置
+    profiles:
+        active: dev
+    servlet:
+        # 修改上传文件大小和请求数据大小
+        multipart:
+            max-file-size: 30Mb
+            max-request-size: 30Mb
+    # 热部署
+    devtools:
+        restart:
+            enabled: true
+    cache:
+        type: ehcache
+        ehcache:
+            config: classpath:config/ehcache.xml
+mybatis:
+    configuration:
+        # 数据库结果集映射 下划线改为bean属性对应的驼峰
+        map-underscore-to-camel-case: true
+    mapper-location: mybatis/**/*Mapper.xml
+    typeAliasesPackage: com.webdemo.**.domain

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="WebDemo">
+    <meta name="description" content="WebDemo">
+    <title>WebDemo</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
+    <script>
+        // 当前窗口不是顶层窗口
+        if (window.top != window.self) {
+            window.top.location = window.self.location
+        }
+
+
+    </script>
+</head>
+
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <!-- 栅格 共12 左部 -->
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1>WebDemo</h1>
+                    </div>
+                    <div class="m-b"></div>
+                    <h3>学习完整Web项目搭建与技术栈</h3>
+                    <ul class="m-b">
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> springboot</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> mybatis</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> shiro</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> thymeleaf</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> bootstrap</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 栅格右部 -->
+            <div class="col-sm-5">
+                <!-- 登录表单 -->
+                <form id="signupForm">
+                    <h3 class="text-center">用户登录</h3>
+                    <p class="m-t-md text-center">欢迎登录WebDemo演示系统</p>
+                    <input type="text" name="username" class="form-control uname" th:value="${username}" />
+                    <input type="text" name="password" class="form-control pword m-b" th:value="${password}" />
+                    <a id="login" class="btn btn-login btn-block">登录</a>
+                    <div class="row">
+                        <div class="col-xs-6 pull_left">
+                            <div class="form-group">
+                                <input class="form-control" type="tel" name="verify" id="verify" placeholder="请输入验证码"
+                                    maxlength="4" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 pull_left">
+                            <a href="javascript:void(0);" rel="external nofollow" title="点击更换验证码">
+                                <img style="margin-top: 12px" id="imgVerify" src="" alt="更换验证码" height="36" width="100%"
+                                    onclick="getVerifyCode(this)">
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">&copy; 2019 All Rights Reserved. WebDemo</div>
+        </div>
+    </div>
+
+    <script th:inline="javascript"> var ctx = [[@{
+        /}]] ; </script>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4" th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6" th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+
+    <!-- jQuery Validation plugin javascript-->
+    <script src="/js/ajax-util.js"></script>
+    <script src="/js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+    <script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+    <script src="/js/plugins/layer/layer.min.js" th:src="@{/js/plugins/layer/layer.min.js}"></script>
+
+    <script type="text/javascript">
+        // dom树结构加载完即执行
+        $(function () {
+            // console.log(ctx)         /
+            // 自定义事件
+            $("#login").on('click', function () {
+                $("#signupForm").submit();
+            });
+            validateRule();
+            $("body").keydown(keyDownLogon);
+            // 页面加载时获取验证码
+            $("#imgVerify").click();
+        });
+
+        // jQuery 表单验证
+        function validateRule() {
+            var icon = "<i class='fa fa-times-circle'></i>";
+            $("#signupForm").validate({
+                rules: {
+                    username: { required: true },
+                    password: { required: true }
+                },
+                // 提示信息
+                messages: {
+                    username: { required: icon + "请输入用户名" },
+                    password: { required: icon + "请输入密码" }
+                }
+            })
+        };
+
+        function keyDownLogon() {
+            if (event.keyCode == 13) {
+                // Enter 触发登录事件
+                $("#login").trigger('click');
+            }
+        };
+
+        // 获取验证码
+        function getVerifyCode(obj) {
+            console.log("/getVerifyCode");
+            obj.src = "/getVerifyCode?" + Math.random();
+            console.log(obj);
+        };
+
+        // 验证通过后操作
+        $.validator.setDefaults({
+            submitHandler: function () {
+                login();
+            }
+        });
+
+        function login() {
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                date: $("#signupForm").serialize(),
+                success: function() {
+                    
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

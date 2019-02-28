@@ -49,7 +49,8 @@
                     <h3 class="text-center">用户登录</h3>
                     <p class="m-t-md text-center">欢迎登录WebDemo演示系统</p>
                     <input type="text" name="username" class="form-control uname" th:value="${username}" />
-                    <input type="text" name="password" class="form-control pword m-b" th:value="${password}" />
+                    <!-- 密码隐藏 注意type -->
+                    <input type="password" name="password" class="form-control pword m-b" th:value="${password}" />
                     <a id="login" class="btn btn-login btn-block">登录</a>
                     <div class="row">
                         <div class="col-xs-6 pull_left">
@@ -71,6 +72,7 @@
         <div class="signup-footer">
             <div class="pull-left">&copy; 2019 All Rights Reserved. WebDemo</div>
         </div>
+
     </div>
 
     <script th:inline="javascript"> var ctx = [[@{
@@ -140,12 +142,21 @@
         });
 
         function login() {
+            // console.log($("#signupForm").serialize());
             $.ajax({
                 type: "POST",
                 url: "/login",
-                date: $("#signupForm").serialize(),
-                success: function() {
-                    
+                data: $("#signupForm").serialize(),
+                success: function(result) {
+                    console.log(result.msg);
+                    if (result.code == 0) {
+                        var index = layer.load(1, {
+                            shade: [0.1, '#fff']
+                        });
+                        parent.location.href = '/index';
+                    } else {
+                        layer.msg(result.msg);
+                    }
                 }
             });
         }

@@ -1,7 +1,13 @@
 package com.webdemo.system.controller;
 
 import com.webdemo.common.config.WebDemoConfig;
+import com.webdemo.common.utils.MD5Utils;
 import com.webdemo.common.utils.RandomValidateCodeUtil;
+import com.webdemo.common.utils.Result;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +61,26 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
-    public void ajaxLogin() {
+    public Result ajaxLogin(String username, String password, String verify, HttpServletRequest request) {
+        // 从session中取出验证码
+        String random = (String) request.getSession().getAttribute(RandomValidateCodeUtil.RANDOMCODEKEY);
+        // 校验
+        if (StringUtils.isBlank(verify)) {
+            return Result.error("请输入验证码");
+        }
+        if (!random.equals(verify)) {
+            return Result.error("请输入正确的验证码");
+        }
+        // TODO: 2019/2/26 shiro 看不懂，先不做，直接跳到index主页面
+        password = MD5Utils.encrypt(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(token);
+        return Result.ok();
+    }
 
+    @GetMapping("/index")
+    public String index(Model model) {
+        return "index_v1";
     }
 }

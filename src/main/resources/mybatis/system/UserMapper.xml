@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webdemo.system.dao.UserDao">
+    <select id="list" parameterType="map" resultType="com.webdemo.system.domain.UserDO">
+        select
+        user_id, username, name, password, dept_id, email, mobile, status, user_id_create, gmt_create, gmt_modified,
+        sex, birth, pic_id, live_address, hobby, province, city, district
+        from sys_user
+        <where>
+            <if test="username != null and username != ''">and username = #{username}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by user_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

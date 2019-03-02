@@ -1,5 +1,5 @@
 webdemo:
-    uploadPath: F:/webdemo/uploaded_files/
+    uploadPath: D:/webdemo/uploaded_files/
     username: admin
     password: 111111
 logging:

@@ -1,6 +1,9 @@
 package com.webdemo.system.service.impl;
 
+import com.webdemo.common.doamin.Tree;
+import com.webdemo.common.utils.BuildTree;
 import com.webdemo.system.dao.MenuDao;
+import com.webdemo.system.domain.MenuDO;
 import com.webdemo.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * @Auther: zhangsy
@@ -30,5 +34,23 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         return permsSet;
+    }
+
+    @Override
+    public List<Tree<MenuDO>> listMenuTree(Long id) {
+        List<Tree<MenuDO>> trees = new ArrayList<>();
+        List<MenuDO> menuDOList = menuDao.listMenuByUserId(id);
+        for (MenuDO menuDO : menuDOList) {
+            Tree<MenuDO> tree = new Tree<>();
+            tree.setId(menuDO.getMenuId().toString());
+            tree.setParentId(menuDO.getParentId().toString());
+            tree.setText(menuDO.getName());
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("url", menuDO.getUrl());
+            attributes.put("icon", menuDO.getIcon());
+            tree.setAttributes(attributes);
+            trees.add(tree);
+        }
+        return BuildTree.buildList(trees, "0");
     }
 }

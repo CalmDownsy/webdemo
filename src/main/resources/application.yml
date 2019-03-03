@@ -28,5 +28,9 @@ mybatis:
     configuration:
         # 数据库结果集映射 下划线改为bean属性对应的驼峰
         map-underscore-to-camel-case: true
-    mapper-location: mybatis/**/*Mapper.xml
+#        key 写错误，导致Dao中的方法映射不到
+    mapper-locations: mybatis/**/*Mapper.xml
     typeAliasesPackage: com.webdemo.**.domain
+
+#      mapper-locations: mybatis/**/*Mapper.xml
+#      typeAliasesPackage: com.bootdo.**.domain

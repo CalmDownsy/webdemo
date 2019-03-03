@@ -1,9 +1,15 @@
 package com.webdemo.system.controller;
 
 import com.webdemo.common.config.WebDemoConfig;
+import com.webdemo.common.contoller.BaseController;
+import com.webdemo.common.doamin.FileDO;
+import com.webdemo.common.doamin.Tree;
+import com.webdemo.common.service.FileService;
 import com.webdemo.common.utils.MD5Utils;
 import com.webdemo.common.utils.RandomValidateCodeUtil;
 import com.webdemo.common.utils.Result;
+import com.webdemo.system.domain.MenuDO;
+import com.webdemo.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Auther: zhangsy
@@ -26,11 +33,17 @@ import javax.servlet.http.HttpServletResponse;
  * @Description:
  */
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
     private final static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private WebDemoConfig webDemoConfig;
+
+    @Autowired
+    private MenuService menuService;
+
+    @Autowired
+    private FileService fileService;
 
     //    主页面
     @GetMapping({"/", ""})
@@ -81,6 +94,20 @@ public class LoginController {
 
     @GetMapping("/index")
     public String index(Model model) {
+        List<Tree<MenuDO>> menus = menuService.listMenuTree(getUserId());
+        model.addAttribute("menus", menus);
+        model.addAttribute("name", getUser().getName());
+        model.addAttribute("username", getUserName());
+        FileDO fileDO = fileService.get(getUser().getPicId());
+        if (fileDO != null && fileDO.getUrl() != null) {
+            if (fileService.isExist(fileDO.getUrl())) {
+                model.addAttribute("picUrl", fileDO.getUrl());
+            } else {
+                model.addAttribute("picUrl", "/img/photo_s.jpg");
+            }
+        } else {
+            model.addAttribute("picUrl", "/img/photo_s.jpg");
+        }
         return "index_v1";
     }
 }

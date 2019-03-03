@@ -1,7 +1,10 @@
 package com.webdemo.system.service;
 
+import com.webdemo.common.doamin.Tree;
+import com.webdemo.system.domain.MenuDO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,4 +16,6 @@ import java.util.Set;
 public interface MenuService {
 
     Set<String> listUserPerms(Long userId);
+
+    List<Tree<MenuDO>> listMenuTree(Long id);
 }

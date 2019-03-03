@@ -9,4 +9,12 @@
         ur.role_id = rm.role_id
         where ur.user_id = #{id}
     </select>
+
+    <select id="listMenuByUserId" parameterType="long" resultType="com.webdemo.system.domain.MenuDO">
+        SELECT DISTINCT m.menu_id, parent_id, name, url, perms, type, icon, order_num, gmt_create, gmt_modified
+        FROM sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        WHERE ur.user_id = #{id} AND m.type in (0, 1) ORDER BY m.order_num
+    </select>
 </mapper>

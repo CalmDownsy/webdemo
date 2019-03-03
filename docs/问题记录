@@ -1,0 +1,3 @@
+1、配置shiro拦截器时，需要配置静态资源路径，否则会加载失败
+2、mapper-locations 配置正确，否则mapper与dao映射失败
+3、

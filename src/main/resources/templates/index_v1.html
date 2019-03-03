@@ -20,6 +20,10 @@
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
 </head>
 <body>
-    <p th:text="${username}">index</p>
+    <ul>
+        <li th:each="menu :${menus}">
+            <span th:text="${menu.text}"></span>
+        </li>
+    </ul>
 </body>
 </html>

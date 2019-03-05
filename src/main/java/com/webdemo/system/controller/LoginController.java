@@ -8,6 +8,7 @@ import com.webdemo.common.service.FileService;
 import com.webdemo.common.utils.MD5Utils;
 import com.webdemo.common.utils.RandomValidateCodeUtil;
 import com.webdemo.common.utils.Result;
+import com.webdemo.common.utils.ShiroUtils;
 import com.webdemo.system.domain.MenuDO;
 import com.webdemo.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
@@ -109,5 +110,16 @@ public class LoginController extends BaseController {
             model.addAttribute("picUrl", "/img/photo_s.jpg");
         }
         return "index_v1";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        ShiroUtils.logout();
+        return "redirect:/login";
+    }
+
+    @GetMapping("/main")
+    public String main() {
+        return "main";
     }
 }

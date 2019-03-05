@@ -1,6 +1,6 @@
 server:
     port: 9000
-    session-timeout: 1800
+    session-timeout: 18000
 spring:
     thymeleaf:
         mode: LEGACYHTML5

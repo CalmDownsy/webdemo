@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="fixed-table-toolbar">
+                        <!-- 左侧按钮 -->
+                        <div class="columns pull-left">
+                            <button shiro:hasPermission="common:dict:add" type="button" class="btn btn-primary">
+                                <i class="fa fa-plus" aria-hidden="true"></i>添加
+                            </button>
+                            <button shiro:hasPermission="common:dict:batchRemove" type="button" class="btn btn-danger">
+                                <i class="fa fa-trash" aria-hidden="true">删除</i>
+                            </button>
+                        </div>
+                        <!-- 右侧按钮 -->
+                        <div class="columns pull-right">
+                            <button class="btn btn-success">查询</button>
+                        </div>
+                        <!-- 查询输入框 -->
+                        <div class="columns pull-right col-md-2 nopadding">
+                            <select data-placeholder="选择类别" class="form-control chosen-select" tabindex="2"
+                                style="width: 100%">
+                                <option value="">选择类别</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table id="exampleTable" data-moblie-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <script type="text/javascript">
+            var s_edit_h = "hidden";
+            var s_remove_h = "hidden";
+            var s_add_h = "hidden";
+        </script>
+    </div>
+    <div shiro:hasPermission="common:dict:edit">
+        <script type="text/javascript">
+            var s_edit_h = "";
+        </script>
+    </div>
+    <div shiro:hasPermission="common:dict:add">
+        <script type="text/javascript">
+            var s_add_h = "";
+        </script>
+    </div>
+    <div shiro:hasPermission="common:dict:remove">
+        <script type="text/javascript">
+            var s_remove_h = "";
+        </script>
+    </div>
+
+    <div th:include="include :: footer"></div>
+    <!-- type写错了 导致js加载失败 -->
+    <script type="text/javascript" src="/js/appjs/common/dict/dict.js"></script>
+</body>
+
+</html>

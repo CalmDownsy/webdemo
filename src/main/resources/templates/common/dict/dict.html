@@ -11,16 +11,18 @@
                     <div class="fixed-table-toolbar">
                         <!-- 左侧按钮 -->
                         <div class="columns pull-left">
-                            <button shiro:hasPermission="common:dict:add" type="button" class="btn btn-primary">
+                            <button shiro:hasPermission="common:dict:add" type="button" class="btn btn-primary"
+                                onclick="add()">
                                 <i class="fa fa-plus" aria-hidden="true"></i>添加
                             </button>
-                            <button shiro:hasPermission="common:dict:batchRemove" type="button" class="btn btn-danger">
-                                <i class="fa fa-trash" aria-hidden="true">删除</i>
+                            <button shiro:hasPermission="common:dict:batchRemove" type="button" class="btn btn-danger"
+                                onclick="batchRemove()">
+                                <i class="fa fa-trash" aria-hidden="true"></i>删除
                             </button>
                         </div>
                         <!-- 右侧按钮 -->
                         <div class="columns pull-right">
-                            <button class="btn btn-success">查询</button>
+                            <button class="btn btn-success" onclick="reload()">查询</button>
                         </div>
                         <!-- 查询输入框 -->
                         <div class="columns pull-right col-md-2 nopadding">

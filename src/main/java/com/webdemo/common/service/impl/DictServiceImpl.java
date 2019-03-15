@@ -29,4 +29,29 @@ public class DictServiceImpl implements DictService {
     public List<DictDO> list(Map<String, Object> map) {
         return dictDao.list(map);
     }
+
+    @Override
+    public int count(Map<String, Object> map) {
+        return dictDao.count(map);
+    }
+
+    @Override
+    public int save(DictDO dictDO) {
+        return dictDao.save(dictDO);
+    }
+
+    @Override
+    public int batchRemove(Long[] ids) {
+        return dictDao.batchRemove(ids);
+    }
+
+    @Override
+    public DictDO get(Long id) {
+        return dictDao.get(id);
+    }
+
+    @Override
+    public int update(DictDO dictDO) {
+        return dictDao.update(dictDO);
+    }
 }

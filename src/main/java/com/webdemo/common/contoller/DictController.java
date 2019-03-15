@@ -4,13 +4,12 @@ import com.webdemo.common.doamin.DictDO;
 import com.webdemo.common.service.DictService;
 import com.webdemo.common.utils.PageUtils;
 import com.webdemo.common.utils.Query;
+import com.webdemo.common.utils.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,46 @@ public class DictController extends BaseController {
     public PageUtils list(@RequestParam Map<String ,Object> params) {
         Query query = new Query(params);
         List<DictDO> dictDOS = dictService.list(query);
-        return null;
+        int total = dictService.count(query);
+        return new PageUtils(dictDOS, total);
     }
 
+    @GetMapping("/add")
+    @RequiresPermissions("common:dict:add")
+    public String add() {
+        return "/common/dict/add";
+    }
+
+    @PostMapping("/save")
+    @ResponseBody
+    @RequiresPermissions("common:dict:add")
+    public Result save(DictDO dictDO) {
+        if (dictService.save(dictDO) > 0) {
+            return Result.ok();
+        }
+        return Result.error();
+    }
+
+    @PostMapping("/batchRemove")
+    @ResponseBody
+    @RequiresPermissions("common:dict:batchRemove")
+    public Result batchRemove(@RequestParam(value = "ids") Long[] ids) {
+        dictService.batchRemove(ids);
+        return Result.ok();
+    }
+
+    @GetMapping("/edit/{id}")
+    @RequiresPermissions("common:dict:edit")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        DictDO dictDO = dictService.get(id);
+        model.addAttribute("dictDo", dictDO);
+        return "/common/dict/edit";
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    @RequiresPermissions("common:dict:edit")
+    public Result update() {
+        return null;
+    }
 }

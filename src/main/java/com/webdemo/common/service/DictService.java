@@ -17,4 +17,14 @@ public interface DictService {
     List<DictDO> listType();
 
     List<DictDO> list(Map<String, Object> map);
+
+    int count(Map<String, Object> map);
+
+    int save(DictDO dictDO);
+
+    int batchRemove(Long[] ids);
+
+    DictDO get(Long id);
+
+    int update(DictDO dictDO);
 }

@@ -1,3 +1,5 @@
 1、配置shiro拦截器时，需要配置静态资源路径，否则会加载失败
 2、mapper-locations 配置正确，否则mapper与dao映射失败
 3、菜单的动态效果通过自定义JS实现，注意以J_开头的css样式
+4、ajax 传递数组 traditional=true 防止深度序列化
+5、ajax content-type 默认为表单(application/x-www-form-urlencoded) 使用@RequestParam

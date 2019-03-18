@@ -86,7 +86,8 @@ public class DictController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     @RequiresPermissions("common:dict:edit")
-    public Result update() {
-        return null;
+    public Result update(DictDO dictDO) {
+        dictService.update(dictDO);
+        return Result.ok();
     }
 }

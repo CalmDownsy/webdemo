@@ -101,7 +101,7 @@
         select * from sys_dict where id = #{id}
     </select>
 
-    <update id="update" parameterType="com.bootdo.common.domain.DictDO">
+    <update id="update" parameterType="com.webdemo.common.doamin.DictDO">
         update sys_dict
         <set>
             <if test="name != null">`name` = #{name}, </if>

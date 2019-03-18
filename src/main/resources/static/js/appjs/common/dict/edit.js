@@ -6,7 +6,7 @@ $(function () {
 function update() {
     $.ajax({
         type: 'post',
-        url: '/commom/dict/update',
+        url: '/common/dict/update',
         data: $(formId).serialize(),
         dateType: 'json',
         success: function (result) {
@@ -35,7 +35,7 @@ function validateRule() {
             name: icon + '请输入标签名'
         },
         submitHandler: function () {
-
+            update();
         }
     })
 }
